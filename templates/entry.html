@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome | Atmosync X</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
+</head>
+<body>
+    <div class="main-container">
+        <h1 class="app-title">⛅ Atmosync X</h1>
+        <form method="POST" action="/entry">
+            <input type="text" name="lat" placeholder="Latitude" required />
+            <input type="text" name="lon" placeholder="Longitude" required />
+            <input type="date" name="date" required />
+            <input type="time" name="time" required />
+            <button type="submit">Check Weather</button>
+        </form>
+        <br>
+        <a href="/"><button>Back</button></a>
+    </div>
+</body>
+</html>
