@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Atmosync X - Weather</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body class="
+  {% set current_hour = time.split(':')[0]|int %}
+  {% if weather.condition == 'Snow' %}snowy
+  {% elif weather.condition in ['Rain', 'Thunderstorm', 'Drizzle'] %}rainy
+  {% elif weather.condition == 'Clear' %}sunny
+  {% elif weather.condition in ['Clouds', 'Mist', 'Fog', 'Haze'] %}cloudy
+  {% elif weather.condition == None %}
+    {% if weather.temp >= 35 %}sunny
+    {% elif 25 <= weather.temp < 35 %}cloudy
+    {% elif 15 <= weather.temp < 25 %}rainy
+    {% elif 5 <= weather.temp < 15 %}cloudy
+    {% elif weather.temp < 5 %}snowy
+    {% elif current_hour < 6 or current_hour >= 18 %}night
+    {% endif %}
+  {% elif current_hour < 6 or current_hour >= 18 %}night
+  {% else %}cloudy
+  {% endif %}">
+
+  <div class="overlay">
+    <p style="color:white; font-size:1.2rem;">Temp: {{ weather.temp }}°C | Condition: {{ weather.condition }} | Time: {{ time }}</p>
+
+    <div class="container-fluid text-white py-4">
+      <div class="d-flex justify-content-between align-items-center px-4 mb-4 flex-wrap">
+        <div>
+          <h1 class="display-5 fw-bold">🌤️ Atmosync X</h1>
+          <p>{{ lat }}, {{ lon }}</p>
+        </div>
+        <div class="text-end">
+          <p class="mb-1">Date: {{ date }}</p>
+          <p class="mb-0">Time: {{ time }}</p>
+        </div>
+      </div>
+
+      <!-- Current Weather -->
+      <div class="text-start px-4 mb-4">
+        <div class="d-flex align-items-center gap-3 flex-wrap">
+          <img src="https://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="Weather Icon" style="width: 80px;" />
+          <div>
+            <h1 class="display-4 fw-bold">{{ weather.temp }}°C</h1>
+            <p class="mb-0">Precipitation: {{ weather.description }}</p>
+            <p class="mb-0">Humidity: {{ weather.humidity }}%</p>
+            <p>Wind: {{ weather.wind }} km/h</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <ul class="nav nav-tabs justify-content-center mb-3" id="forecastTabs">
+        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#tempTab">Temperature</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#precipTab">Precipitation</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#windTab">Wind</a></li>
+      </ul>
+
+      <!-- Tab Content -->
+      <div class="tab-content px-3">
+        <div class="tab-pane fade show active" id="tempTab">
+          <div class="forecast-row">
+            {% for hour in weather.hourly %}
+            <div>
+              <p>{{ loop.index * 3 }}:00</p>
+              <img src="https://openweathermap.org/img/wn/{{ hour[3] }}.png" />
+              <p>{{ hour[0] }}°C</p>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="tab-pane fade" id="precipTab">
+          <div class="forecast-row">
+            {% for hour in weather.hourly %}
+            <div>
+              <p>{{ loop.index * 3 }}:00</p>
+              <i class="bi bi-cloud-drizzle-fill raindrop-icon" style="color:#00bfff;"></i>
+              <p>{{ hour[1] }}%</p>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="tab-pane fade" id="windTab">
+          <div class="forecast-row">
+            {% for hour in weather.hourly %}
+            <div>
+              <p>{{ loop.index * 3 }}:00</p>
+              <div style="transform: rotate(45deg); font-size: 1.2rem;">➡️</div>
+              <p>{{ hour[2] }} km/h</p>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Weekly Forecast -->
+      <div class="mt-4 px-3 forecast-row">
+        {% for day in weather.daily %}
+        <div>
+          <p>{{ (loop.index0 + today) | datetimeformat }}</p>
+          <img src="https://openweathermap.org/img/wn/{{ day[4] }}.png" />
+          <p>{{ day[0] }}° / {{ day[1] }}°</p>
+          <p>{{ day[2] }} mm</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
