@@ -1,0 +1,50 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.overlay {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.9));
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Backgrounds */
+.sunny {
+  background-image: url('https://thumbs.dreamstime.com/b/sunny-sky-background-9731589.jpg');
+}
+
+.rainy {
+  background-image: url('https://media.istockphoto.com/id/1257951336/photo/transparent-umbrella-under-rain-against-water-drops-splash-background-rainy-weather-concept.jpg?s=612x612&w=0&k=20&c=lNvbIw1wReb-owe7_rMgW8lZz1zElqs5BOY1AZhyRXs=');
+}
+
+.cloudy {
+  background-image: url('https://images.pexels.com/photos/414491/pexels-photo-414491.jpeg?cs=srgb&dl=pexels-pixabay-414491.jpg&fm=jpg');
+}
+
+.snowy {
+  background-image: url('https://previews.123rf.com/images/larisa69/larisa691301/larisa69130100025/17477849-snowy-field-with-trees-in-the-snow-on-a-background-beautiful-sky.jpg');
+}
+
+.night {
+  background-image: url('https://media.istockphoto.com/id/497785654/vector/starry-sky-and-crescent.jpg?s=612x612&w=0&k=20&c=up9JyUhjTrYxgT0OhxJ-i08HEY7WrclCMKIsvZW5MgY=');
+}
+
+.forecast-row {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 10px;
+  text-align: center;
+}
+
+.forecast-row div {
+  padding: 10px;
+  min-width: 80px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
